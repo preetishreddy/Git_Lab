@@ -1,4 +1,9 @@
+# basics
 __pycache__/
 *.pyc
 venv/
 .idea/
+
+# ignore all data files, but keep the folder placeholder
+data/**
+!data/.gitkeep

@@ -4,11 +4,14 @@ on:
   push:
     paths:
       - 'lab_01/**'
+      - 'requirements.txt'
       - '.github/workflows/lab_01-pytest.yml'
   pull_request:
     paths:
       - 'lab_01/**'
+      - 'requirements.txt'
       - '.github/workflows/lab_01-pytest.yml'
+  workflow_dispatch:
 
 jobs:
   test:
@@ -26,16 +29,15 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+          cache-dependency-path: requirements.txt
 
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install pytest
 
       - name: Run pytest for lab_01 only
         env:
           PYTHONPATH: lab_01/src
         run: |
-          # run only pytest-style tests; exclude unittest files by pattern
           pytest -q lab_01/tests -k "not unittest"
